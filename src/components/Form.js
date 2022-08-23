@@ -48,6 +48,7 @@ class Form extends React.Component {
         />
         <label htmlFor="rare-input">
           <select
+            name="rare-input"
             data-testid="rare-input"
             value={ cardRare }
             onChange={ onInputChange }

@@ -8,6 +8,7 @@ class MyInputs extends React.Component {
       <label htmlFor={ testId }>
         { description }
         <input
+          name={ testId }
           data-testId={ testId }
           type={ type }
           value={ value }
