@@ -20,17 +20,45 @@ class App extends React.Component {
     const newName = name.replace('-i', 'I');
     if (name !== 'trunfo-input') {
       this.setState({ [newName]: value });
+      this.handleDisable();
     }
     this.setState({ checked });
   };
 
+  handleDisable = () => {
+    const max = 6;
+    const inputs = Object.values(this.state).filter((_element, index) => index < max);
+    const { attr1Input, attr2Input, attr3Input } = this.state;
+    const n1 = Number(attr1Input);
+    const n2 = Number(attr2Input);
+    const n3 = Number(attr3Input);
+    const minAttr = 0;
+    const maxAttr = 90;
+    const sum = n1 + n2 + n3;
+    const maxSum = 210;
+    if (inputs.includes('')) {
+      return true;
+    }
+    if (n1 > maxAttr || n2 > maxAttr || n3 > maxAttr) {
+      return true;
+    }
+    if (sum > maxSum) {
+      return true;
+    }
+    return (n1 < minAttr || n2 < minAttr || n3 < minAttr);
+  };
+
   render() {
     const { nameInput, imageInput, descriptionInput,
-      attr1Input, attr2Input, attr3Input, rareInput, checked } = this.state;
+      attr1Input, attr2Input, attr3Input,
+      rareInput, checked } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
-        <Form onInputChange={ this.handleChange } />
+        <Form
+          onInputChange={ this.handleChange }
+          isSaveButtonDisabled={ this.handleDisable() }
+        />
         <Card
           cardName={ nameInput }
           cardImage={ imageInput }
