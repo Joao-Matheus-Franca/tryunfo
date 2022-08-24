@@ -1,14 +1,15 @@
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import savedCards from './data/savedCards';
 
 class App extends React.Component {
   state = {
     nameInput: '',
     descriptionInput: '',
-    attr1Input: '',
-    attr2Input: '',
-    attr3Input: '',
+    attr1Input: 0,
+    attr2Input: 0,
+    attr3Input: 0,
     imageInput: '',
     rareInput: 'normal',
     checked: false,
@@ -48,6 +49,20 @@ class App extends React.Component {
     return (n1 < minAttr || n2 < minAttr || n3 < minAttr);
   };
 
+  handlerClick = () => {
+    savedCards.push(this.state);
+    this.setState({
+      nameInput: '',
+      descriptionInput: '',
+      attr1Input: 0,
+      attr2Input: 0,
+      attr3Input: 0,
+      imageInput: '',
+      rareInput: 'normal',
+      checked: false,
+    });
+  };
+
   render() {
     const { nameInput, imageInput, descriptionInput,
       attr1Input, attr2Input, attr3Input,
@@ -58,6 +73,15 @@ class App extends React.Component {
         <Form
           onInputChange={ this.handleChange }
           isSaveButtonDisabled={ this.handleDisable() }
+          onSaveButtonClick={ this.handlerClick }
+          cardName={ nameInput }
+          cardImage={ imageInput }
+          cardDescription={ descriptionInput }
+          cardAttr1={ attr1Input }
+          cardAttr2={ attr2Input }
+          cardAttr3={ attr3Input }
+          cardRare={ rareInput }
+          cardTrunfo={ checked }
         />
         <Card
           cardName={ nameInput }
