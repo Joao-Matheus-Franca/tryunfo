@@ -17,6 +17,7 @@ class App extends React.Component {
     hasTrunfo: false,
     filter: '',
     rare: 'todas',
+    superFilter: false,
   };
 
   handleChange = (event) => {
@@ -72,6 +73,7 @@ class App extends React.Component {
       // saved: savedCards,
       filter: initial.filter,
       rare: 'todas',
+      superFilter: false,
     }));
   };
 
@@ -105,10 +107,16 @@ class App extends React.Component {
     this.setState({ rare: value });
   };
 
+  handleCheck = (event) => {
+    const { target } = event;
+    const { checked } = target;
+    this.setState({ superFilter: checked });
+  };
+
   render() {
     const { nameInput, imageInput, descriptionInput,
       attr1Input, attr2Input, attr3Input,
-      rareInput, checked, saved, filter, rare } = this.state;
+      rareInput, checked, saved, filter, rare, superFilter } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -142,20 +150,39 @@ class App extends React.Component {
             type="text"
             data-testid="name-filter"
             onChange={ this.handlerFilter }
+            disabled={ superFilter }
           />
         </label>
-        <select data-testid="rare-filter" onChange={ this.handlerRare }>
+        <select
+          data-testid="rare-filter"
+          onChange={ this.handlerRare }
+          disabled={ superFilter }
+        >
           <option>todas</option>
           <option>normal</option>
           <option>raro</option>
           <option>muito raro</option>
         </select>
+        <label htmlFor="trunfo-filter">
+          <input
+            data-testid="trunfo-filter"
+            type="checkbox"
+            onChange={ this.handleCheck }
+          />
+          Super Trunfo
+        </label>
         {saved.filter((card) => card.nameInput.includes(filter))
           .filter((card) => {
             if (rare === 'todas') {
               return card;
             }
             return card.rareInput === rare;
+          })
+          .filter((card) => {
+            if (superFilter === true) {
+              return card.checked === superFilter;
+            }
+            return card;
           })
           .map((card) => (<Card
             key={ card.nameInput }
