@@ -9,7 +9,10 @@ class Form extends React.Component {
       cardImage, cardRare, cardTrunfo, isSaveButtonDisabled,
       onInputChange, onSaveButtonClick } = this.props;
     const value = savedCards.some((card) => card.checked);
-    const phrase = <p>Você já tem um Super Trunfo em seu baralho</p>;
+    const phrase = (
+      <p data-testId="trunfo-input">
+        Você já tem um Super Trunfo em seu baralho
+      </p>);
     const checkbox = (
       <label htmlFor="trunfo-input">
         <input

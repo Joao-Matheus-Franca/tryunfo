@@ -93,6 +93,17 @@ class App extends React.Component {
           cardRare={ rareInput }
           cardTrunfo={ checked }
         />
+        {savedCards.map((card) => (<Card
+          key={ card.nameInput }
+          cardName={ card.nameInput }
+          cardImage={ card.imageInput }
+          cardDescription={ card.descriptionInput }
+          cardAttr1={ card.attr1Input }
+          cardAttr2={ card.attr2Input }
+          cardAttr3={ card.attr3Input }
+          cardRare={ card.rareInput }
+          cardTrunfo={ card.checked }
+        />))}
       </div>
     );
   }
