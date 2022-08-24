@@ -13,6 +13,7 @@ class App extends React.Component {
     imageInput: '',
     rareInput: 'normal',
     checked: false,
+    saving: false,
   };
 
   handleChange = (event) => {
@@ -63,6 +64,17 @@ class App extends React.Component {
     });
   };
 
+  handlerDelete = (event) => {
+    const { target } = event;
+    const { name } = target;
+    savedCards.forEach((card, index) => {
+      if (name === card.nameInput) {
+        savedCards.splice(index, 1);
+        this.setState({ saving: true });
+      }
+    });
+  };
+
   render() {
     const { nameInput, imageInput, descriptionInput,
       attr1Input, attr2Input, attr3Input,
@@ -103,6 +115,16 @@ class App extends React.Component {
           cardAttr3={ card.attr3Input }
           cardRare={ card.rareInput }
           cardTrunfo={ card.checked }
+          btn={
+            <button
+              type="button"
+              onClick={ this.handlerDelete }
+              data-testid="delete-button"
+              name={ card.nameInput }
+            >
+              Excluir
+            </button>
+          }
         />))}
       </div>
     );
