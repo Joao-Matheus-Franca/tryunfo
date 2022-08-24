@@ -1,12 +1,24 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import MyInputs from './MyInputs';
+import savedCards from '../data/savedCards';
 
 class Form extends React.Component {
   render() {
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
       cardImage, cardRare, cardTrunfo, isSaveButtonDisabled,
       onInputChange, onSaveButtonClick } = this.props;
+    const value = savedCards.some((card) => card.checked);
+    const phrase = <p>Você já tem um Super Trunfo em seu baralho</p>;
+    const checkbox = (
+      <label htmlFor="trunfo-input">
+        <input
+          data-testId="trunfo-input"
+          type="checkbox"
+          checked={ cardTrunfo }
+          onChange={ onInputChange }
+        />
+      </label>);
     // const { hasTrunfo } = this.props;
     return (
       <>
@@ -58,14 +70,15 @@ class Form extends React.Component {
             <option>muito raro</option>
           </select>
         </label>
-        <label htmlFor="trunfo-input">
+        {value === true ? phrase : checkbox}
+        {/* <label htmlFor="trunfo-input">
           <input
             data-testId="trunfo-input"
             type="checkbox"
             checked={ cardTrunfo }
             onChange={ onInputChange }
           />
-        </label>
+        </label> */}
         <label htmlFor="save-button">
           <input
             data-testId="save-button"
