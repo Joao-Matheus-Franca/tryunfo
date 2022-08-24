@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import MyInputs from './MyInputs';
-// import savedCards from '../data/savedCards';q
+// import savedCards from '../data/savedCards';
 
 class Form extends React.Component {
   render() {
