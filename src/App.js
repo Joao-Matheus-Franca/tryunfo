@@ -15,6 +15,8 @@ class App extends React.Component {
     checked: false,
     saved: [],
     hasTrunfo: false,
+    filter: '',
+    rare: 'todas',
   };
 
   handleChange = (event) => {
@@ -57,7 +59,7 @@ class App extends React.Component {
   handlerClick = () => {
     savedCards.push(this.state);
     this.setState((initial) => ({ saved: [...initial.saved, initial] }));
-    this.setState({
+    this.setState((initial) => ({
       nameInput: '',
       descriptionInput: '',
       attr1Input: 0,
@@ -68,7 +70,9 @@ class App extends React.Component {
       checked: false,
       hasTrunfo: false,
       // saved: savedCards,
-    });
+      filter: initial.filter,
+      rare: 'todas',
+    }));
   };
 
   // Solução parcialmente encontrada no seguinte link:
@@ -89,10 +93,22 @@ class App extends React.Component {
     return saved.some((card) => card.checked);
   };
 
+  handlerFilter = (event) => {
+    const { target } = event;
+    const { value } = target;
+    this.setState({ filter: value });
+  };
+
+  handlerRare = (event) => {
+    const { target } = event;
+    const { value } = target;
+    this.setState({ rare: value });
+  };
+
   render() {
     const { nameInput, imageInput, descriptionInput,
       attr1Input, attr2Input, attr3Input,
-      rareInput, checked, saved } = this.state;
+      rareInput, checked, saved, filter, rare } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -120,27 +136,48 @@ class App extends React.Component {
           cardRare={ rareInput }
           cardTrunfo={ checked }
         />
-        {saved.map((card) => (<Card
-          key={ card.nameInput }
-          cardName={ card.nameInput }
-          cardImage={ card.imageInput }
-          cardDescription={ card.descriptionInput }
-          cardAttr1={ card.attr1Input }
-          cardAttr2={ card.attr2Input }
-          cardAttr3={ card.attr3Input }
-          cardRare={ card.rareInput }
-          cardTrunfo={ card.checked }
-          btn={
-            <button
-              type="button"
-              onClick={ this.handlerDelete }
-              data-testid="delete-button"
-              name={ card.nameInput }
-            >
-              Excluir
-            </button>
-          }
-        />))}
+        <label htmlFor="filter">
+          <input
+            name="filter"
+            type="text"
+            data-testid="name-filter"
+            onChange={ this.handlerFilter }
+          />
+        </label>
+        <select data-testid="rare-filter" onChange={ this.handlerRare }>
+          <option>todas</option>
+          <option>normal</option>
+          <option>raro</option>
+          <option>muito raro</option>
+        </select>
+        {saved.filter((card) => card.nameInput.includes(filter))
+          .filter((card) => {
+            if (rare === 'todas') {
+              return card;
+            }
+            return card.rareInput === rare;
+          })
+          .map((card) => (<Card
+            key={ card.nameInput }
+            cardName={ card.nameInput }
+            cardImage={ card.imageInput }
+            cardDescription={ card.descriptionInput }
+            cardAttr1={ card.attr1Input }
+            cardAttr2={ card.attr2Input }
+            cardAttr3={ card.attr3Input }
+            cardRare={ card.rareInput }
+            cardTrunfo={ card.checked }
+            btn={
+              <button
+                type="button"
+                onClick={ this.handlerDelete }
+                data-testid="delete-button"
+                name={ card.nameInput }
+              >
+                Excluir
+              </button>
+            }
+          />))}
       </div>
     );
   }
