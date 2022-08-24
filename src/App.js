@@ -13,12 +13,15 @@ class App extends React.Component {
     imageInput: '',
     rareInput: 'normal',
     checked: false,
-    saving: false,
+    saved: [],
+    hasTrunfo: false,
   };
 
   handleChange = (event) => {
     const { target } = event;
     const { value, name, checked } = target;
+    // const { saved } = this.state;
+    // const trunfo = saved.some((card) => card.checked);
     const newName = name.replace('-i', 'I');
     if (name !== 'trunfo-input') {
       this.setState({ [newName]: value });
@@ -50,8 +53,10 @@ class App extends React.Component {
     return (n1 < minAttr || n2 < minAttr || n3 < minAttr);
   };
 
+  // Solução parcialmente encontrada no seguinte link: https://bobbyhadz.com/blog/react-push-to-state-array
   handlerClick = () => {
     savedCards.push(this.state);
+    this.setState((initial) => ({ saved: [...initial.saved, initial] }));
     this.setState({
       nameInput: '',
       descriptionInput: '',
@@ -61,24 +66,33 @@ class App extends React.Component {
       imageInput: '',
       rareInput: 'normal',
       checked: false,
+      hasTrunfo: false,
+      // saved: savedCards,
     });
   };
 
+  // Solução parcialmente encontrada no seguinte link:
+  // https://bobbyhadz.com/blog/react-remove-element-from-state-array#:~:text=To%20remove%20an%20element%20from,that%20the%20filter%20method%20returned.
   handlerDelete = (event) => {
     const { target } = event;
     const { name } = target;
+    this.setState((init) => ({ saved: init.saved.filter((s) => s.nameInput !== name) }));
     savedCards.forEach((card, index) => {
       if (name === card.nameInput) {
         savedCards.splice(index, 1);
-        this.setState({ saving: true });
       }
     });
+  };
+
+  verification = () => {
+    const { saved } = this.state;
+    return saved.some((card) => card.checked);
   };
 
   render() {
     const { nameInput, imageInput, descriptionInput,
       attr1Input, attr2Input, attr3Input,
-      rareInput, checked } = this.state;
+      rareInput, checked, saved } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -94,6 +108,7 @@ class App extends React.Component {
           cardAttr3={ attr3Input }
           cardRare={ rareInput }
           cardTrunfo={ checked }
+          hasTrunfo={ this.verification() }
         />
         <Card
           cardName={ nameInput }
@@ -105,7 +120,7 @@ class App extends React.Component {
           cardRare={ rareInput }
           cardTrunfo={ checked }
         />
-        {savedCards.map((card) => (<Card
+        {saved.map((card) => (<Card
           key={ card.nameInput }
           cardName={ card.nameInput }
           cardImage={ card.imageInput }

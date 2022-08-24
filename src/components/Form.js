@@ -1,16 +1,16 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import MyInputs from './MyInputs';
-import savedCards from '../data/savedCards';
+// import savedCards from '../data/savedCards';q
 
 class Form extends React.Component {
   render() {
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
       cardImage, cardRare, cardTrunfo, isSaveButtonDisabled,
       onInputChange, onSaveButtonClick } = this.props;
-    const value = savedCards.some((card) => card.checked);
+    // const value = savedCards.some((card) => card.checked);
     const phrase = (
-      <p data-testId="trunfo-input">
+      <p>
         Você já tem um Super Trunfo em seu baralho
       </p>);
     const checkbox = (
@@ -22,7 +22,7 @@ class Form extends React.Component {
           onChange={ onInputChange }
         />
       </label>);
-    // const { hasTrunfo } = this.props;
+    const { hasTrunfo } = this.props;
     return (
       <>
         <MyInputs
@@ -73,7 +73,7 @@ class Form extends React.Component {
             <option>muito raro</option>
           </select>
         </label>
-        {value === true ? phrase : checkbox}
+        { hasTrunfo === true ? phrase : checkbox}
         {/* <label htmlFor="trunfo-input">
           <input
             data-testId="trunfo-input"
@@ -105,7 +105,7 @@ Form.propTypes = {
   cardImage: propTypes.string.isRequired,
   cardRare: propTypes.string.isRequired,
   cardTrunfo: propTypes.bool.isRequired,
-  // hasTrunfo: propTypes.bool.isRequired,
+  hasTrunfo: propTypes.bool.isRequired,
   isSaveButtonDisabled: propTypes.bool.isRequired,
   onInputChange: propTypes.func.isRequired,
   onSaveButtonClick: propTypes.func.isRequired,
