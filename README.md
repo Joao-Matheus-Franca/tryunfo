@@ -11,7 +11,7 @@
 ## 🧠 Desafios e aprendizados:
 * Aplicar o versionamento de códigos com o uso dos princípios do Git e GitHub 
 * Progredir nos ensinamentos sobre o uso do <a href="https://react.dev/">React</a> para construção de aplicações Web
-* Progredir na construção de formulários em <a href="https://react.dev/">React</a> capazes de lidar com os dados do usuário através do ``` estado ``` dos componentes da aplicação
+* Avançar na construção de formulários em <a href="https://react.dev/">React</a> capazes de lidar com os dados do usuário através do ``` estado ``` dos componentes da aplicação
 ## 👨‍💻 Como executar: 
 ⚠️ Recomenda-se o download e utilização do Visual Studio Code e NodeJS ⚠️
 1. Realizar o clone do repositório: ``` git clone git@github.com:Joao-Matheus-Franca/tryunfo.git ```
